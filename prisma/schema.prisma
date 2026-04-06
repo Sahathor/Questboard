@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum QuestType {
+  MAIN
+  SIDE
+  DAILY
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  EPIC
+}
+
+enum QuestStatus {
+  ACTIVE
+  COMPLETED
+  FAILED
+  ARCHIVED
+}
+
+enum SkillType {
+  FOCUS
+  DISCIPLINE
+  CREATIVITY
+  ENDURANCE
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model Character {
+  id         String   @id @default(cuid())
+  name       String   @default("Hero")
+  level      Int      @default(1)
+  xp         Int      @default(0)
+  xpToNext   Int      @default(100)
+  gold       Int      @default(0)
+  streak     Int      @default(0)
+  lastActive DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  skills Skills[]
+  quests Quest[]
+}
+
+model Skills {
+  id       String    @id @default(cuid())
+  type     SkillType
+  level    Int       @default(1)
+  xp       Int       @default(0)
+  xpToNext Int       @default(50)
+
+  characterId String
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, type])
+}
+
+model Quest {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  type        QuestType
+  difficulty  Difficulty
+  status      QuestStatus @default(ACTIVE)
+  xpReward    Int
+  goldReward  Int
+  deadline    DateTime?
+  completedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  characterId  String
+  character    Character          @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  skillRewards QuestSkillReward[]
+}
+
+model QuestSkillReward {
+  id    String    @id @default(cuid())
+  skill SkillType
+  xp    Int
+
+  questId String
+  quest   Quest  @relation(fields: [questId], references: [id], onDelete: Cascade)
+}
