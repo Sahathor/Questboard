@@ -8,6 +8,8 @@ import { Separator } from "@/components/ui/separator";
 import { Swords, Flame, Coins, Star, Plus } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const [characterResult, questsResult, completedTodayResult] =
     await Promise.all([getCharacter(), getQuests(), getCompletedToday()]);

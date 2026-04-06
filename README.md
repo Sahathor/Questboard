@@ -20,6 +20,15 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment Setup
+
+The app requires a PostgreSQL connection string in `DATABASE_URL`.
+
+- Local development: add `DATABASE_URL` to `.env`
+- Vercel deployment: add the same `DATABASE_URL` in the project environment variables before deploying
+
+Without this variable, Prisma cannot initialize and database-backed pages will fail.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

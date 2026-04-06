@@ -6,6 +6,8 @@ import { SkillGrid } from "@/components/character/SkillGrid";
 import { Separator } from "@/components/ui/separator";
 import { Swords, Flame, Coins, Star, CheckCircle2 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function CharacterPage() {
   const [characterResult, questsResult] = await Promise.all([
     getCharacter(),
