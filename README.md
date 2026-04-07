@@ -29,6 +29,22 @@ The app requires a PostgreSQL connection string in `DATABASE_URL`.
 
 Without this variable, Prisma cannot initialize and database-backed pages will fail.
 
+## Vercel Setup (Prisma + PostgreSQL)
+
+To deploy reliably on Vercel, configure these project settings once:
+
+- Environment Variable: `DATABASE_URL` (Production + Preview)
+- Build Command: `npm run build:vercel`
+- Install Command: `npm install`
+
+`build:vercel` runs:
+
+1. `prisma generate`
+2. `prisma migrate deploy`
+3. `next build`
+
+This ensures tables/enums exist on the production database before the app is built and started.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
